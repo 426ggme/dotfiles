@@ -380,7 +380,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // プログラム実行用の推奨バインド: ターミナル、アプリランチャー、画面ロッカー。
-    Mod+T hotkey-overlay-title="Open a Terminal: alacrtty" { spawn "alacrtty"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+B hotkey-overlay-title="Run an Application: firefox" { spawn "firefox"; }
     Mod+E hotkey-overlay-title="Run an Application: nautilus" { spawn "nautilus"; }
