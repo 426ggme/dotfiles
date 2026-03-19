@@ -1,0 +1,70 @@
+[window]
+opacity = 1.0 
+decorations = "Full"
+decorations_theme_variant = "Dark"
+
+[window.padding]
+x = 12
+y = 12
+
+[font]
+size = 13.0
+
+[font.normal]
+family = "PlemolJP Console NF"
+
+[font.bold]
+family = "PlemolJP Console NF"
+
+[font.italic]
+family = "PlemolJP Console NF"
+
+[font.bold_italic]
+family = "PlemolJP Console NF"
+
+[colors.primary]
+background = "#262626"
+foreground = "#e0e0e0"
+
+[colors.cursor]
+text = "#262626"
+cursor = "#ffffff"
+
+[colors.selection]
+text = "CellForeground"
+background = "#444444"
+
+[colors.normal]
+black   = "#1c1c1c"
+red     = "#d75f5f"
+green   = "#87af87"
+yellow  = "#dfaf87"
+blue    = "#87afd7"
+magenta = "#af87af"
+cyan    = "#87afaf"
+white   = "#bcbcbc"
+
+[colors.bright]
+black   = "#444444"
+red     = "#ff8787"
+green   = "#afd7af"
+yellow  = "#ffdfaf"
+blue    = "#afd7ff"
+magenta = "#dfafdf"
+cyan    = "#afd7d7"
+white   = "#eeeeee"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
+
+[env]
+TERM = "xterm-256color"
+
