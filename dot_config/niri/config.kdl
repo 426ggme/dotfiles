@@ -305,6 +305,7 @@ animations {
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
 // WezTerm の初期設定のバグを回避するため、空の default-column-width を設定します。
+
 window-rule {
     // この正規表現は、デフォルトの設定であるため誤検知を避けるよう、
     // 意図的に可能な限り具体的に作成されています。
@@ -334,13 +335,25 @@ window-rule {
     open-maximized true
 }
 
+// Bitwardenをフローティングにする
+window-rule {
+    match app-id=r#"^com\.bitwarden\.desktop$"#
+    open-floating true
+}
+
+// Discordを最大化で開く。
+window-rule {
+    match app-id=r#"^discord$"#
+    open-maximized true
+}
+
 // 例：画面キャプチャから 2 つのパスワードマネージャをブロックする。
 // （この例のルールは、先頭に "/-" が付いてコメントアウトされています。）
 /-window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
 
-    block-out-from "screen-capture"
+    block-out-from "screen-captre"
 
     // サードパーティ製のスクリーンショットツールで表示させたい場合は、代わりにこれを使用します。
     // block-out-from "screencast"
