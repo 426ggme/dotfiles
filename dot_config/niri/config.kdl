@@ -1,0 +1,639 @@
+// この設定は KDL フォーマットです: https://kdl.dev
+// "/-" は続くノードをコメントアウトします。
+// 設定の完全な説明については wiki を参照してください:
+// https://yalter.github.io/niri/Configuration:-Introduction
+
+// 入力デバイスの設定。
+// オプションの完全なリストは wiki で確認できます:
+// https://yalter.github.io/niri/Configuration:-Input
+input {
+    keyboard {
+        xkb {
+            // rules, model, layout, variant, options を設定できます。
+            // 詳細については xkeyboard-config(7) を参照してください。
+
+            // 例:
+            layout "jp"
+            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+
+            // このセクションが空の場合、niri は org.freedesktop.locale1 から
+            // xkb 設定を取得します。localectl set-x11-keymap を使用してこれらを制御できます。
+        }
+
+        // 起動時に numlock を有効にします。この設定を省略すると無効になります。
+        numlock
+    }
+
+    // 次のセクションには libinput の設定が含まれます。
+    // 設定を省略すると無効になるか、デフォルト値のままになります。
+    // ここでコメントアウトされている設定はすべて例であり、デフォルトではありません。
+    touchpad {
+        // off
+        tap
+        // dwt
+        // dwtp
+        // drag false
+        // drag-lock
+        // natural-scroll
+        // accl-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "two-finger"
+        // disabled-on-external-mouse
+    }
+
+    mouse {
+        // off
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "no-scroll"
+    }
+
+    trackpoint {
+        // off
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "on-button-down"
+        // scroll-button 273
+        // scroll-button-lock
+        // middle-emulation
+    }
+
+    // これをアンコメントすると、新しくフォーカスされたウィンドウの中央にマウスが移動します。
+    // warp-mouse-to-focus
+
+    // マウスをウィンドウや出力に移動したときに、自動的にフォーカスを合わせます。
+    // max-scroll-amount="0%" に設定すると、すでに画面上に完全に表示されているウィンドウでのみ動作します。
+    // focus-follows-mouse max-scroll-amount="0%"
+}
+
+// 出力（モニタ）の名前で設定できます。名前は niri インスタンス内で 
+// `niri msg outputs` を実行することで確認できます。
+// 内蔵のラップトップモニタは通常 "eDP-1" と呼ばれます。
+// 詳細については wiki を参照してください:
+// https://yalter.github.io/niri/Configuration:-Outputs
+// "/-" を削除してノードをアンコメントするのを忘れないでください！
+/-output "eDP-1" {
+    // この出力を無効にするには、この行をアンコメントします。
+    // off
+
+    // 出力の解像度、およびオプションでリフレッシュレート。
+    // フォーマットは "<width>x<height>" または "<width>x<height>@<refresh rate>" です。
+    // リフレッシュレートが省略された場合、niri はその解像度で最高の
+    // リフレッシュレートを選択します。
+    // モードが完全に省略されているか無効な場合、niri は自動的に選択します。
+    // niri インスタンス内で `niri msg outputs` を実行すると、すべての出力とそのモードがリストされます。
+    mode "1920x1080@120.030"
+
+    // 整数または小数のスケールを使用できます。例えば 150% スケールの場合は 1.5 を使用します。
+    scale 2
+
+    // transform は出力を反時計回りに回転させることができます。有効な値は以下の通りです：
+    // normal, 90, 180, 270, flipped, flipped-90, flipped-180, flipped-270
+    transform "normal"
+
+    // グローバル座標空間における出力の位置。
+    // これは "focus-monitor-left" のような方向性のあるモニタアクションや、カーソルの移動に影響します。
+    // カーソルは直接隣接する出力間でのみ移動できます。
+    // 配置の際には出力のスケールと回転を考慮する必要があります：
+    // 出力は論理ピクセル（スケーリングされたピクセル）単位でサイズ設定されます。
+    // 例えば、スケール 2.0 の 3840x2160 出力は 1920x1080 の論理サイズになります。
+    // そのため、別の出力をその右側に隣接させるには、その x を 1920 に設定します。
+    // 位置が設定されていないか、重複が発生する場合、出力は代わりに自動的に配置されます。
+    position x=1280 y=0
+}
+
+// ウィンドウの配置やサイズに影響を与える設定。
+// 詳細については wiki を参照してください:
+// https://yalter.github.io/niri/Configuration:-Layout
+layout {
+    // ウィンドウ周囲のギャップを論理ピクセル単位で設定します。
+    gaps 16
+
+    // フォーカスを変更したときにカラムを中央に配置するタイミング。オプションは：
+    // - "never": デフォルトの動作。画面外のカラムにフォーカスを合わせても、画面の左端または右端に維持されます。
+    // - "always": フォーカスされたカラムは常に中央に配置されます。
+    // - "on-overflow": 前にフォーカスしていたカラムと一緒に収まらない場合に、フォーカスされたカラムを中央に配置します。
+    center-focused-column "never"
+
+    // "switch-preset-column-width" (Mod+R) で切り替える幅をカスタマイズできます。
+    preset-column-widths {
+        // proportion は、ギャップを考慮した出力幅の割合として幅を設定します。
+        // 例えば、"proportion 0.25" サイズのウィンドウ 4 つを出力にぴったり収めることができます。
+        // デフォルトのプリセット幅は、出力の 1/3、1/2、2/3 です。
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+
+        // fixed は論理ピクセル単位で正確に幅を設定します。
+        // fixed 1920
+    }
+
+    // "switch-preset-window-height" (Mod+Shift+R) で切り替える高さをカスタマイズすることもできます。
+    // preset-window-heights { }
+
+    // 新しいウィンドウのデフォルトの幅を変更できます。
+    default-column-width { proportion 0.5; }
+    // ブラケットを空のままにすると、ウィンドウ自体が初期幅を決定します。
+    // default-column-width {}
+
+    // デフォルトでは、フォーカスリングと境界線はウィンドウの背後に塗りつぶされた
+    // 背景の矩形としてレンダリングされます。つまり、半透明のウィンドウを透かして表示されます。
+    // これは、クライアントサイドデコレーション（CSD）を使用するウィンドウが任意の形状を持つ可能性があるためです。
+    //
+    // それが好みでない場合は、下の `prefer-no-csd` をアンコメントしてください。
+    // Niri は、CSD を省略することに同意したウィンドウの「周囲」にフォーカスリングと境界線を描画します。
+    //
+    // あるいは、`draw-border-with-background` というウィンドウルールで上書きすることもできます。
+
+    // フォーカスリングの見栄えを変更できます。
+    focus-ring {
+        // この行をアンコメントするとフォーカスリングが無効になります。
+        // off
+
+        // リングがウィンドウから外側に何論理ピクセル広がるか。
+        width 4
+
+        // 色は様々な方法で設定できます：
+        // - CSS 色名: "red"
+        // - RGB 16進数: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
+        // - CSSライクな表記: "rgb(255, 127, 0)", rgba(), hsl() など。
+
+        // アクティブなモニタ上のリングの色。
+        active-color "#36bcca"
+
+        // 非アクティブなモニタ上のリングの色。
+        //
+        // フォーカスリングはアクティブなウィンドウの周囲にのみ描画されるため、
+        // inactive-color が見えるのは他のモニタのみです。
+        inactive-color "#505050"
+
+        // グラデーションも使用できます。単色よりも優先されます。
+        // グラデーションは CSS の linear-gradient(angle, from, to) と同様にレンダリングされます。
+        // 角度（angle）も linear-gradient と同じでオプションであり、
+        // デフォルトは 180（上から下へのグラデーション）です。
+        // これらを設定するには、ウェブ上の CSS linear-gradient ツールを使用できます。
+        // 色空間の変更もサポートされています。詳細は wiki を参照してください。
+        //
+        // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
+
+        // グラデーションの色をウィンドウ自体ではなく、ワークスペースのビュー全体に
+        // 対して相対的に付けることもできます。
+        // そのためには relative-to="workspace-view" を設定します。
+        //
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // 境界線（ボーダー）を追加することもできます。フォーカスリングに似ていますが、常に表示されます。
+    border {
+        // 設定はフォーカスリングと同じです。
+        // 境界線を有効にする場合は、おそらくフォーカスリングを無効にしたくなるでしょう。
+        off
+
+        width 4
+        active-color "#ffc87f"
+        inactive-color "#505050"
+
+        // 注意を必要とするウィンドウの周囲の境界線の色。
+        urgent-color "#9b0000"
+
+        // グラデーションは、いくつかの異なる補間色空間を使用できます。
+        // 例えば、これは in="oklch longer hue" によるパステルレインボーグラデーションです。
+        //
+        // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
+
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // ウィンドウにドロップシャドウを有効にできます。
+    shadow {
+        // 次の行をアンコメントするとシャドウが有効になります。
+        // on
+
+        // デフォルトでは、シャドウはそのウィンドウの周囲にのみ描画され、背後には描画されません。
+        // シャドウをウィンドウの背後に描画させるには、この設定をアンコメントします。
+        //
+        // niri は CSD ウィンドウの角の半径を知る方法がないことに注意してください。
+        // ウィンドウが四角い角を持っていると仮定する必要があり、CSD の丸い角の内側に
+        // シャドウのアーティファクトが発生します。この設定はそれらのアーティファクトを修正します。
+        //
+        // ただし、代わりに prefer-no-csd や geometry-corner-radius を設定したい場合もあります。
+        // その場合、niri は角の半径を認識し、ウィンドウの背後に描画することなく、
+        // シャドウを正しく描画します。これらはまた、ウィンドウが描画している
+        // クライアントサイドのシャドウも削除します。
+        //
+        // draw-behind-window true
+
+        // シャドウの見栄えを変更できます。以下の値は論理ピクセル単位で、
+        // CSS の box-shadow プロパティと一致します。
+
+        // Softness はシャドウのぼかし半径を制御します。
+        softness 30
+
+        // Spread はシャドウを広げます。
+        spread 5
+
+        // Offset はウィンドウに対してシャドウを移動させます。
+        offset x=0 y=5
+
+        // シャドウの色と不透明度も変更できます。
+        color "#0007"
+    }
+
+    // Struts（ストラット）は、layer-shell パネル（バーなど）と同様に、ウィンドウが占める領域を縮小させます。
+    // 外側のギャップのようなものと考えることができます。論理ピクセル単位で設定します。
+    // 左右のストラットを設定すると、その横にある次のウィンドウが常に表示されるようになります。
+    // 上下のストラットは、layer-shell パネルが占める領域や通常のギャップに加えて、
+    // 外側のギャップを単に追加します。
+    struts {
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
+    }
+}
+
+// 起動時にプロセスを生成するには、このような行を追加します。
+// niri をセッションとして実行すると xdg-desktop-autostart がサポートされるため、
+// そちらの方が便利な場合があります。
+// その他の spawn の例については、下の binds セクションを参照してください。
+
+spawn-at-startup "fcitx5" "-d"
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
+spawn-at-startup "wlsunset -l 35.7 -L 139.7"
+
+// シェルコマンド（変数、パイプなどを含む）を実行するには spawn-sh-at-startup を使用します：
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+hotkey-overlay {
+    // 起動時の「重要なホットキー」ポップアップを無効にするには、この行をアンコメントします。
+    skip-at-startup
+}
+
+// 可能であればクライアントサイドデコレーション（CSD）を省略するようクライアントに要求するには、
+// この行をアンコメントします。
+// クライアントが明示的に CSD を要求した場合、その要求は尊重されます。
+// さらに、クライアントにはタイル表示されていることが通知され、
+// クライアントサイドの一部の丸い角が削除されます。
+// このオプションは、一部の半透明ウィンドウの背後に境界線やフォーカスリングが
+// 描画される問題も修正します。
+// これを有効または無効にした後は、効果を反映させるためにアプリを再起動する必要があります。
+// prefer-no-csd
+
+// スクリーンショットが保存されるパスを変更できます。
+// 先頭の ~ はホームディレクトリに展開されます。
+// パスは strftime(3) でフォーマットされ、スクリーンショットの 日付と時刻を指定できます。
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+// スクリーンショットのディスクへの保存を無効にするには、これを null に設定することもできます。
+// screenshot-path null
+
+// アニメーション設定。
+// 個別のアニメーションの設定方法は wiki で説明されています:
+// https://yalter.github.io/niri/Configuration:-Animations
+animations {
+    // すべてのアニメーションをオフにするにはアンコメントします。
+    // off
+
+    // すべてのアニメーションをこの倍率で遅くします。1 未満の値にすると逆に速くなります。
+    // slowdown 3.0
+}
+
+// ウィンドウルールにより、個々のウィンドウの動作を調整できます。
+// 詳細については wiki を参照してください:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// WezTerm の初期設定のバグを回避するため、空の default-column-width を設定します。
+window-rule {
+    // この正規表現は、デフォルトの設定であるため誤検知を避けるよう、
+    // 意図的に可能な限り具体的に作成されています。
+    // お好みで app-id="wezterm" だけにしても構いません。
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Firefox のピクチャーインピクチャープレイヤーをデフォルトでフローティングとして開きます。
+window-rule {
+    // この app-id 正規表現は、以下の両方で動作します：
+    // - ホスト上の Firefox (app-id は "firefox")
+    // - Flatpak 版 Firefox (app-id は "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// nautilus ファイルマネージャをフローティングとして開く。
+window-rule {
+    match app-id="org.gnome.Nautilus"
+    open-floating true
+}
+
+// VSCode をカラム最大化で開く。
+window-rule {
+    match app-id=r#"^(code|Code|code-oss)$"#
+    open-maximized true
+}
+
+// 例：画面キャプチャから 2 つのパスワードマネージャをブロックする。
+// （この例のルールは、先頭に "/-" が付いてコメントアウトされています。）
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // サードパーティ製のスクリーンショットツールで表示させたい場合は、代わりにこれを使用します。
+    // block-out-from "screencast"
+}
+
+// 例：すべてのウィンドウで丸い角を有効にする。
+// （この例のルールは、先頭に "/-" が付いてコメントアウトされています。）
+/-window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+binds {
+    // キーは、+ 記号で区切られた修飾キーと、最後に XKB キー名で構成されます。
+    // 特定のキーの XKB 名を探すには、wev のようなプログラムを使用できます。
+    //
+    // "Mod" は、TTY 上で実行している場合は Super に、
+    // winit ウィンドウとして実行している場合は Alt に相当する特別な修飾キーです。
+    //
+    // ここでバインドできるほとんどのアクションは、
+    // `niri msg action do-something` を使用してプログラムから呼び出すこともできます。
+
+    // Mod-Shift-/ (通常は Mod+?) は、重要なホットキーのリストを表示します。
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // プログラム実行用の推奨バインド: ターミナル、アプリランチャー、画面ロッカー。
+    Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+B hotkey-overlay-title="Run an Application: firefox" { spawn "firefox"; }
+    Mod+E hotkey-overlay-title="Run an Application: nautilus" { spawn "nautilus"; }
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
+
+    // シェルコマンドを実行するには spawn-sh を使用します。パイプや複数のコマンドなどが必要な場合に使用します。
+    // 注意: コマンド全体が単一の引数として渡されます。そのまま `sh -c` に渡されます。
+    // 例えば、これはスクリーンリーダー (orca) を切り替えるための標準的なバインドです。
+    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+
+    // PipeWire & WirePlumber 用の音量キーマッピングの例。
+    // allow-when-locked=true プロパティにより、セッションがロックされている間も動作します。
+    // spawn-sh を使用することで、コマンドと一緒に複数の引数を渡すことができます。
+    // "-l 1.0" は音量を 100% に制限します。
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // playerctl を使用したメディアキーマッピングの例。
+    // これは MPRIS 対応のすべてのメディアプレーヤーで動作します。
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+
+    // brightnessctl 用の輝度キーマッピングの例。
+    // 複数の引数を持つ通常の spawn も使用できます（"sh" を経由しないため）。
+    // ただし、各引数を個別の "" 引用符で囲む必要があります。
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // オーバービューを開く/閉じる：ワークスペースとウィンドウをズームアウトして表示。
+    // マウスを左上のホットコーナーに移動したり、
+    // タッチパッドで4本指のスワイプアップを行ったりすることでも可能です。
+    Mod+O repeat=false { toggle-overview; }
+
+    Mod+Q repeat=false { close-window; }
+
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { focus-window-up; }
+    Mod+L     { focus-column-right; }
+
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Down  { move-window-down; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+L     { move-column-right; }
+
+    // カラムの最初または最後のウィンドウに到達したときに、
+    // ワークスペースを越えて移動する代替コマンド。
+    // Mod+J     { focus-window-or-workspace-down; }
+    // Mod+K     { focus-window-or-workspace-up; }
+    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
+    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
+
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Down  { focus-monitor-down; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
+
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+
+    // 単一のウィンドウだけを移動するコマンドもあります：
+    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
+    // ...
+
+    // また、ワークスペース全体を別のモニタに移動することもできます：
+    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
+    // ...
+
+    Mod+Page_Down      { focus-workspace-down; }
+    Mod+Page_Up        { focus-workspace-up; }
+    Mod+U              { focus-workspace-down; }
+    Mod+I              { focus-workspace-up; }
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+    Mod+Ctrl+U         { move-column-to-workspace-down; }
+    Mod+Ctrl+I         { move-column-to-workspace-up; }
+
+    // 単一のウィンドウだけを移動するコマンドもあります：
+    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
+    // ...
+
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Shift+U         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
+
+    // 以下の構文を使用して、マウスホイールのスクロールティックをバインドできます。
+    // これらのバインドは natural-scroll 設定に基づいて方向が変わります。
+    //
+    // ワークスペースを非常に速くスクロールしすぎるのを避けるために、
+    // cooldown-ms プロパティを使用できます。バインドはこの値にレート制限されます。
+    // 任意のバインドにクールダウンを設定できますが、ホイールに最も役立ちます。
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+
+    // 通常、アプリケーションで Shift を押しながら上下にスクロールすると
+    // 水平スクロールになります。これらのバインドはそれを再現します。
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // 同様に、タッチパッドのスクロール「ティック」をバインドできます。
+    // タッチパッドのスクロールは連続的であるため、これらのバインドでは
+    // 離散的なインターバルに分割されます。
+    // これらのバインドもタッチパッドの natural-scroll の影響を受けるため、
+    // デフォルトでタッチパッドの natural-scroll が有効になっている場合は、
+    // これらの例のバインドは「反転」しています。
+    // Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
+    // Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
+
+    // インデックスでワークスペースを参照できます。ただし、niri は
+    // 動的なワークスペースシステムであるため、これらのコマンドは、
+    // 「ベストエフォート」的なものであることに留意してください。
+    // 現在のワークスペース数よりも大きいインデックスを参照しようとすると、
+    // 代わりに一番下の（空の）ワークスペースを参照します。
+    //
+    // 例えば、2 つのワークスペース + 1 つの空のワークスペースがある場合、
+    // インデックス 3, 4, 5 などはすべて 3 番目のワークスペースを参照します。
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+    // 単一のウィンドウだけを移動するコマンドもあります：
+    // Mod+Ctrl+1 { move-window-to-workspace 1; }
+
+    // 現在のワークスペースと前のワークスペースの間でフォーカスを切り替えます。
+    // Mod+Tab { focus-workspace-previous; }
+
+    // 以下のバインドは、フォーカスされたウィンドウをカラムに出し入れします。
+    // ウィンドウが単独の場合、隣のカラムに吸収します。
+    // ウィンドウがすでにカラム内にある場合、そこから追い出します。
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    // 右側からウィンドウを 1 つ取り込み、フォーカスされたカラムの下部に追加します。
+    Mod+Comma  { consume-window-into-column; }
+    // フォーカスされたカラムの最下部のウィンドウを右側の新しいカラムとして追い出します。
+    Mod+Period { expel-window-from-column; }
+
+    Mod+R { switch-preset-column-width; }
+    // 逆順でプリセットを循環させることも可能です。
+    // Mod+R { switch-preset-column-width-back; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+
+    // フォーカスされたカラムを、完全に表示されている他のカラムに占有されていないスペースまで広げます。
+    // カラムに「残りのスペースを埋めさせる」ようにします。
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
+    Mod+C { center-column; }
+
+    // 画面上のすべての完全に見えているカラムを中央に配置します。
+    Mod+Ctrl+C { center-visible-columns; }
+
+    // より細かな幅調整。
+    // このコマンドでは以下のことも可能です：
+    // * ピクセル単位で幅を設定: "1000"
+    // * ピクセル単位で幅を調整: "-5" または "+5"
+    // * 画面幅のパーセンテージで幅を設定: "25%"
+    // * 画面幅のパーセンテージで幅を調整: "-10%" または "+10%"
+    // ピクセルサイズは論理（スケーリングされた）ピクセルを使用します。
+    // つまり、スケール 2.0 の出力で set-column-width "100" と設定すると、
+    // カラムは物理的な画面ピクセルで 200 ピクセルを占有します。
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Semicolon { set-column-width "+10%"; }
+
+    // 他のウィンドウと同じカラムにいる場合の、より細かな高さ調整。
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Semicolon { set-window-height "+10%"; }
+
+    // フォーカスされたウィンドウをフローティングレイアウトとタイルレイアウトの間で移動します。
+    Mod+X { toggle-window-floating; }
+    Mod+Ctrl+X  { switch-focus-between-floating-and-tiling; }
+
+    // カラムのタブ表示モードを切り替えます。
+    // このカラムのウィンドウは、積み重ねられるのではなく、垂直タブとして表示されます。
+    Mod+W { toggle-column-tabbed-display; }
+
+    // レイアウトを切り替えるアクション。
+    // 注意: これらをアンコメントする場合は、上記の xkb オプションで
+    // 一致するレイアウト切り替えホットキーが設定されていないことを確認してください。
+    // 同じホットキーに両方が設定されていると、キーを押したときに 2 回切り替わる
+    // （xkb で 1 回、niri で 1 回）ため、切り替えが正常に動作しません。
+    // Mod+Space       { switch-layout "next"; }
+    // Mod+Shift+Space { switch-layout "prev"; }
+
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // スクリーンショットメニュー（fuzzel dmenu 経由）
+    Mod+S hotkey-overlay-title="Screenshot Menu: fuzzel" { spawn-sh "~/.config/niri/scripts/screenshot.sh"; }
+
+    // クリップボード履歴（cliphist + fuzzel dmenu）
+    Mod+V hotkey-overlay-title="Clipboard History: cliphist" { spawn-sh "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
+
+    // リモートデスクトップクライアントやソフトウェア KVM スイッチなどの
+    // アプリケーションは、ここで定義されたキーボードショートカットの処理を
+    // niri が停止するように要求する場合があります。
+    // これにより、キー入力をそのままリモートマシンに転送できるようになります。
+    // バグのあるアプリケーションがセッションを人質に取らないよう、
+    // インヒビターを切り替えるための「非常口（escape hatch）」をバインドしておくのが良い考えです。
+    //
+    // allow-inhibiting=false プロパティは他のバインドにも適用でき、
+    // インヒビターがアクティブな場合でも niri が常にそれらを処理するようにします。
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // quit アクションは、誤った終了を避けるために確認ダイアログを表示します。
+    Mod+Shift+E { quit; }
+    Ctrl+Alt+Delete { quit; }
+
+    // モニタの電源をオフにします。再びオンにするには、
+    // マウスを動かしたり、他のキーを押したりして入力を提供してください。
+    Mod+Shift+P { power-off-monitors; }
+}
+
+include "dms/cursor.kdl"
