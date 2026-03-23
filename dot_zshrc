@@ -108,6 +108,9 @@ fi
 # uv configuration
 export PATH="$HOME/.local/bin:$PATH"
 
+# fnm configuration
+eval "$(fnm env --use-on-cd)"
+
 alias vi="nvim"
 alias vim"nvim"
 alias view="nvim -R"
