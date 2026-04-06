@@ -15,4 +15,3 @@ $makeindex = 'mendex %O -o %D %S';
 # 5. その他の設定 (既存のものを維持)
 $max_repeat = 5;
 $pvc_view_file_via_temporary = 0;
-$pdf_previewer = 'wsl-open %S';
