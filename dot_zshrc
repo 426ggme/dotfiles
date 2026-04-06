@@ -111,9 +111,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # fnm configuration
 eval "$(fnm env --use-on-cd)"
 
-# latexmk configuration
-export PATH="/usr/local/texlive/2026/bin/x86_64-linux:$PATH"
-
 alias vi="nvim"
 alias vim"nvim"
 alias view="nvim -R"
