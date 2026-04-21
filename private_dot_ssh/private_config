@@ -1,0 +1,102 @@
+Host uecgw
+    HostName ssh.cc.uec.ac.jp
+    User k2311061
+    IdentityFile ~/.ssh/id_ed25519_lab
+
+Host hpcgw
+    HostName 172.21.208.156
+    User hpc
+    ProxyJump uecgw
+    IdentityFile ~/.ssh/id_ed25519_lab
+
+Host kw-ts-ubuntu
+    HostName 192.168.15.74
+    User kajino
+    ProxyJump hpcgw
+    IdentityFile ~/.ssh/id_ed25519_lab
+
+Host IMLyubisysRaspInternal
+    HostName 192.168.0.16
+    User imlkagi
+    Port 11209
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/id_rsa_iml
+    IdentitiesOnly yes
+
+Host IMLyubisysRaspExternal
+    # via sol (ssh tunneling)
+    HostName 130.153.160.182
+    User imlkagi
+    Port 11209
+    ProxyJump sol
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/id_rsa_iml
+    IdentitiesOnly yes
+
+Host sol
+    HostName sol.cc.uec.ac.jp
+    User k2311061
+    IdentityFile ~/.ssh/id_rsa_uec
+
+Host ced
+    # via sol (ssh tunneling)
+    HostName orange19.ced.cei.uec.ac.jp
+    User k2311061
+    ProxyJump sol
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/id_rsa_uec
+    IdentitiesOnly yes
+
+Host remote
+    # via sol (ssh tunneling)
+    HostName remote.ied.inf.uec.ac.jp 
+    User k2311061
+    ProxyJump sol
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/id_rsa_uec
+    IdentitiesOnly yes
+
+Host ied
+    # via remote (ssh tunneling)
+    HostName gpu2.ied.inf.uec.ac.jp
+    User k2311061
+    ProxyJump remote
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/id_rsa_uec
+    IdentitiesOnly yes
+
+Host proxmox
+    HostName 192.168.11.42
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host net-revproxy
+    HostName 192.168.11.101
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host net-vpn
+    HostName 192.168.11.102
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host net-dns
+    HostName 192.168.11.103
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host web-apps
+    HostName 192.168.11.111
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host app-auto
+    HostName 192.168.11.121
+    User root
+    IdentityFile ~/.ssh/id_ed25519_home
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_github
+    IdentitiesOnly yes
