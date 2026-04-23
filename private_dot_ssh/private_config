@@ -10,10 +10,20 @@ Host hpcgw
     IdentityFile ~/.ssh/id_ed25519_lab
 
 Host kw-ts-ubuntu
-    HostName 192.168.15.74
+    HostName 192.168.1.190
     User kajino
     ProxyJump hpcgw
     IdentityFile ~/.ssh/id_ed25519_lab
+
+Host lemon
+    HostName 172.21.64.227
+    User kajino
+    IdentityFile ~/.ssh/id_ed25519_lab
+
+Host nas-lab
+    HostName 192.168.0.16
+    User member
+    ProxyJump lemon
 
 Host IMLyubisysRaspInternal
     HostName 192.168.0.16
