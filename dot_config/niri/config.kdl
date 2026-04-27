@@ -7,33 +7,10 @@ config-notification {
 }
 // Outputs from existing configuration
 /-output "eDP-1" {
-    // この出力を無効にするには、この行をアンコメントします。
-    // off
-
-    // 出力の解像度、およびオプションでリフレッシュレート。
-    // フォーマットは "<width>x<height>" または "<width>x<height>@<refresh rate>" です。
-    // リフレッシュレートが省略された場合、niri はその解像度で最高の
-    // リフレッシュレートを選択します。
-    // モードが完全に省略されているか無効な場合、niri は自動的に選択します。
-    // niri インスタンス内で `niri msg outputs` を実行すると、すべての出力とそのモードがリストされます。
-    mode "1920x1080@120.030"
-
-    // 整数または小数のスケールを使用できます。例えば 150% スケールの場合は 1.5 を使用します。
-    scale 2
-
-    // transform は出力を反時計回りに回転させることができます。有効な値は以下の通りです：
-    // normal, 90, 180, 270, flipped, flipped-90, flipped-180, flipped-270
-    transform "normal"
-
-    // グローバル座標空間における出力の位置。
-    // これは "focus-monitor-left" のような方向性のあるモニタアクションや、カーソルの移動に影響します。
-    // カーソルは直接隣接する出力間でのみ移動できます。
-    // 配置の際には出力のスケールと回転を考慮する必要があります：
-    // 出力は論理ピクセル（スケーリングされたピクセル）単位でサイズ設定されます。
-    // 例えば、スケール 2.0 の 3840x2160 出力は 1920x1080 の論理サイズになります。
-    // そのため、別の出力をその右側に隣接させるには、その x を 1920 に設定します。
-    // 位置が設定されていないか、重複が発生する場合、出力は代わりに自動的に配置されます。
-    position x=1280 y=0
+   mode "1920x1080@120.030"
+   scale 2
+   transform "normal"
+   position x=0 y=0
 }
 
 
@@ -53,7 +30,7 @@ input {
             // For more information, see xkeyboard-config(7).
 
             // For example:
-            layout "jp106"
+            layout "jp"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
 
             // If this section is empty, niri will fetch xkb settings
