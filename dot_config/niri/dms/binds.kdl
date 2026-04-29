@@ -15,7 +15,10 @@ binds {
     Mod+S hotkey-overlay-title="スクリーンショットメニュー" {
         spawn-sh "~/.config/niri/scripts/screenshot.sh";
     }
-    Mod+M hotkey-overlay-title="タスクマネージャ" {
+    Mod+M hotkey-overlay-title="wl-mirror (eDP-1)" {
+        spawn "wl-mirror" "eDP-1";
+    }
+    Mod+Shift+M hotkey-overlay-title="タスクマネージャ" {
         spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
     }
 
@@ -31,7 +34,7 @@ binds {
 
     // === セキュリティ ===
     Mod+Alt+L hotkey-overlay-title="画面ロック" {
-        spawn "hyprlock";
+        spawn "dms" "ipc" "call" "lock" "lock";
     }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
