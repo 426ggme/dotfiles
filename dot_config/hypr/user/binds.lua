@@ -2,16 +2,21 @@
 
 -- === Application Launchers ===
 hl.bind("SUPER + T", hl.dsp.exec_cmd("alacritty"))
+hl.bind("SUPER + A", hl.dsp.exec_cmd("dms ipc call spotlight toggle"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("fuzzel"))
 hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd([[sh -c 'cliphist list | fuzzel -d | cliphist decode | wl-copy']]))
+hl.bind("SUPER + M", hl.dsp.exec_cmd("dms ipc call processlist focusOrToggle"))
+hl.bind("SUPER + comma", hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"))
+hl.bind("SUPER + O", hl.dsp.exec_cmd("dms ipc call hypr toggleOverview"))
+hl.bind("SUPER + TAB", hl.dsp.exec_cmd("dms ipc call hypr toggleOverview"))
 hl.bind("SUPER + X", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
 
 -- === Cheat sheet ===
 hl.bind("SUPER + SHIFT + Slash", hl.dsp.exec_cmd("dms ipc call keybinds toggle hyprland"))
 
 -- === Security ===
-hl.bind("SUPER + CTRL + L", hl.dsp.exec_cmd("dms ipc call lock lock"))
+hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd("dms ipc call lock lock"))
 hl.bind("SUPER + SHIFT + E", hl.dsp.exit())
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("dms ipc call processlist focusOrToggle"))
 

@@ -7,6 +7,7 @@ binds {
 
     // === アプリ起動 ===
     Mod+T hotkey-overlay-title="ターミナルを開く" { spawn "alacritty"; }
+    Mod+A hotkey-overlay-title="DMS Spotlight" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Mod+D hotkey-overlay-title="アプリランチャー: fuzzel" { spawn "fuzzel"; }
     Mod+B hotkey-overlay-title="Firefoxを起動" { spawn "firefox"; }
     Mod+E hotkey-overlay-title="Thunarを起動" { spawn "thunar"; }
@@ -16,16 +17,16 @@ binds {
     Mod+S hotkey-overlay-title="スクリーンショットメニュー" {
         spawn-sh "~/.config/niri/scripts/screenshot.sh";
     }
-    Mod+M hotkey-overlay-title="wl-mirror (eDP-1)" {
+    Mod+Shift+M hotkey-overlay-title="wl-mirror (eDP-1)" {
         spawn "wl-mirror" "eDP-1";
     }
-    Mod+Shift+M hotkey-overlay-title="タスクマネージャ" {
+    Mod+M hotkey-overlay-title="タスクマネージャ" {
         spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
     }
 
     Super+X hotkey-overlay-title="電源メニュー" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
-    Mod+Comma hotkey-overlay-title="設定" {
-        spawn "gnome-control-center";
+    Mod+Comma hotkey-overlay-title="DMS設定" {
+        spawn "dms" "ipc" "call" "settings" "focusOrToggle";
     }
     Mod+Y hotkey-overlay-title="壁紙ブラウズ" {
         spawn "dms" "ipc" "call" "dankdash" "wallpaper";
@@ -38,7 +39,9 @@ binds {
         spawn "dms" "ipc" "call" "lock" "lock";
     }
     Mod+Shift+E { quit; }
-    Ctrl+Alt+Delete { quit; }
+    Ctrl+Alt+Delete hotkey-overlay-title="タスクマネージャ" {
+        spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
+    }
 
     // === 音量・メディア操作 ===
     XF86AudioRaiseVolume allow-when-locked=true {

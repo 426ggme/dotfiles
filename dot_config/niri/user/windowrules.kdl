@@ -2,4 +2,16 @@
 window-rule {
     match app-id=r#"^(thunar|Thunar|org\.xfce\.Thunar)$"#
     open-floating true
+    open-maximized false
+    default-column-width { proportion 0.72; }
+    default-window-height { proportion 0.78; }
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+    open-focused false
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
+    default-floating-position x=24 y=24 relative-to="bottom-right"
 }
