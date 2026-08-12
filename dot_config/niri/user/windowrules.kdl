@@ -1,0 +1,5 @@
+// User window rules. This file is not managed by DMS.
+window-rule {
+    match app-id=r#"^(thunar|Thunar|org\.xfce\.Thunar)$"#
+    open-floating true
+}

@@ -1,9 +1,9 @@
--- Minimal user keybinds (Hyprland 0.55+ Lua)
+-- User keybinds (Hyprland 0.55+ Lua). This file is not managed by DMS.
 
 -- === Application Launchers ===
 hl.bind("SUPER + T", hl.dsp.exec_cmd("alacritty"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("fuzzel"))
-hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus"))
+hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd([[sh -c 'cliphist list | fuzzel -d | cliphist decode | wl-copy']]))
 hl.bind("SUPER + X", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
 
