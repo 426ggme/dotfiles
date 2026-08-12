@@ -17,7 +17,7 @@ typeset -U path PATH
 # SSH specific configuration
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
-  PROMPT="%n@%m ${PROMPT}"
+  PROMPT="%{$fg_bold[blue]%}%n%{$reset_color%}%{$fg_bold[white]%}@%{$reset_color%}%{$fg_bold[yellow]%}%m%{$reset_color%} ${PROMPT}"
 else
   export EDITOR='nvim'
 fi
