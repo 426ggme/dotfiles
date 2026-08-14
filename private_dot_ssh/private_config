@@ -76,32 +76,27 @@ Host ied
     IdentitiesOnly yes
 
 Host proxmox
-    HostName 192.168.11.42
+    HostName 192.168.11.10
     User root
     IdentityFile ~/.ssh/id_ed25519_home
 
-Host net-revproxy
-    HostName 192.168.11.101
+Host tailscale
+    HostName 192.168.11.20
     User root
     IdentityFile ~/.ssh/id_ed25519_home
 
-Host net-vpn
-    HostName 192.168.11.102
+Host adguard
+    HostName 192.168.11.21
     User root
     IdentityFile ~/.ssh/id_ed25519_home
 
-Host net-dns
-    HostName 192.168.11.103
+Host apps
+    HostName 192.168.11.40
     User root
     IdentityFile ~/.ssh/id_ed25519_home
 
-Host web-apps
-    HostName 192.168.11.111
-    User root
-    IdentityFile ~/.ssh/id_ed25519_home
-
-Host app-auto
-    HostName 192.168.11.121
+Host monitoring
+    HostName 192.168.11.41
     User root
     IdentityFile ~/.ssh/id_ed25519_home
 
