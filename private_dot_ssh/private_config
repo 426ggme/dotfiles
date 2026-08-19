@@ -109,5 +109,5 @@ Host github.com
 Host gitlab.com
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_ed25519_github
+    IdentityFile ~/.ssh/id_ed25519_gitlab
     IdentitiesOnly yes
