@@ -3,7 +3,7 @@
 hl.window_rule({
 	match = { class = "^(thunar|Thunar|org\\.xfce\\.Thunar)$" },
 	float = true,
-	size = { "monitor_w * 0.72", "monitor_h * 0.78" },
+	size = { "monitor_w * 0.36", "monitor_h * 0.39" },
 	center = true,
 	suppress_event = "maximize",
 })
