@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work Notes"
+  short_description: "Append concise progress notes to a project work log"
+  default_prompt: "作業内容、理由、分かったこと、次の作業をプロジェクトのNOTES.mdへ簡潔に追記してください。"

@@ -1,0 +1,3 @@
+interface:
+  display_name: "データグラフ作図"
+  short_description: "判読性とデータへの忠実さを優先して作図する"
