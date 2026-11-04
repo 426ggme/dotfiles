@@ -41,3 +41,7 @@ export INFOPATH="/usr/local/texlive/2026/texmf-dist/doc/info:$INFOPATH"
 alias vi="nvim"
 alias vim="nvim"
 alias view="nvim -R"
+
+# golang
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
